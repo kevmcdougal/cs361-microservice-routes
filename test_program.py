@@ -95,8 +95,10 @@ def scenario_3_invalid_coordinate() -> None:
     print("  (no partial route was returned, and the service is still running)")
 
 
-def scenario_4_reliability(requests_to_send: int = 25) -> None:
-    """Reliability NFR: repeated valid calls all succeed, service never dies."""
+def scenario_4_reliability(requests_to_send: int = 100) -> None:
+    """Reliability NFR from the Sprint 2 Plan: across 100 consecutive requests
+    with valid inputs, at least 99 must return 200 and the service must not
+    terminate."""
     banner(f"SCENARIO 4 - Reliability check: {requests_to_send} consecutive valid requests")
 
     params = {"start": "33.9737,-117.3281", "end": "34.0633,-117.6509", "costing": "auto"}
@@ -107,6 +109,9 @@ def scenario_4_reliability(requests_to_send: int = 25) -> None:
             successes += 1
     pct = successes / requests_to_send * 100
     print(f"  {successes}/{requests_to_send} returned HTTP 200 ({pct:.0f}%)")
+    threshold = 0.99 * requests_to_send
+    print(f"  acceptance criterion: at least {threshold:.0f} must succeed -> "
+          f"{'PASS' if successes >= threshold else 'FAIL'}")
     print("  service is still accepting requests")
 
 
