@@ -69,5 +69,39 @@ Microservice responds with JSON. On success returns HTTP 200 with the matched ad
 
 ## D. UML sequence diagram
 
-In progress
+```mermaid
+sequenceDiagram
+    autonumber
+    participant P as Program making a request
+    participant M as Routes Microservice on port 8001
+    participant N as Nominatim geocoding engine
+
+    Note over P,M: Communication pipe - REST over HTTP with JSON responses
+
+    P->>M: GET /geocode?address=900 University Ave, Riverside, CA
+    activate M
+    M->>M: geocode(address)
+
+    alt address is blank or missing
+        M-->>P: 400 with error=address_required
+    else address supplied
+        M->>N: GET /search?q=address&format=json&limit=1
+        activate N
+        N-->>M: 200 with array of candidate matches
+        deactivate N
+
+        alt no candidate returned
+            M-->>P: 404 with error=address_not_found
+        else best candidate found
+            M->>M: build response from top match
+            M-->>P: 200 with query, matched_address, lat, lon
+        end
+    end
+    deactivate M
+
+    Note right of M: All failures return a JSON body<br/>containing error and message
+```
+
+
+
 
