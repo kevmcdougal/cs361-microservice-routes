@@ -17,7 +17,7 @@ Query Parameters:
 |-----------|--------|----------|---------------------------------------|
 | `address` | string | Yes      | street address to geocode  |
 
-Example call
+**Example call:**
 ```
 import requests
 
@@ -32,16 +32,17 @@ geo_response = requests.get(
 ```
 
 ## C. Receiving Data from the microservice
-Microservice responds with JSON. On success returns HTTP 200 with the matched address and its coordinates. On error will return an error code and a message. Refer to table below for details.
-Successful response:
+Microservice responds with JSON. On success returns HTTP 200 with the matched address and its coordinates. On error will return an error code and a message. Refer to table below for details.<br>
+<br>
+**Successful response:**
 | **Field** | **Type**  | **Description** |
-|-----------|--------|----------|---------------------------------------|
+|-----------|--------|----------|
 | `query` | string     | the address as it was sent |
 | `matched_address` | string | the address the Nominatum engine matched to from the available OpenStreetMap dataset  |
 | `lat` | float | Latitude in degrees  |
 | `lon` | float | Longitude in degrees |
 
-Example success response
+**Example success response:**
 ```
 {
   "query": "900 University Ave, Riverside, CA",
@@ -51,14 +52,14 @@ Example success response
 }
 ```
 
-Error responses:
+**Error responses:**
 | **Status Codes** | **Type**  | **Description** |
-|-----------|--------|----------|---------------------------------------|
+|-----------|--------|----------|
 | `400` | address_required     | missing/blank address  |
 | `404` | address_not found    | no match found for address entered  |
 | `502` | geocoder_unavailable    | the Nominatum geocoding engine is unreachable  |
 
-Example error response
+**Example error response:**
 ```
 {
   "error": "address_not_found",
@@ -66,6 +67,7 @@ Example error response
 }
 ```
 
-
 ## D. UML sequence diagram
+
+In progress
 
