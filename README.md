@@ -3,6 +3,20 @@
 ## A. Geocoding Microservice Description
 This microservice converts text addresses into geographic coordinates with a latitude and longitude
 
+**Prerequisities:** Requires a running Novinatum geocoding engine. https://nominatim.org/
+
+The usage of the public instance can be limited, so recommend installing your own engine locally with OpenStreetMap data for your desired region. Docker image can be found at the following repo, and can be set up by running the following terminal commands from the project directory
+
+https://github.com/Suvamp/cs361-main-program
+```
+# 1. Fetch and clip OpenStreetMap data (~1 GB download, one-time), currently pulls data for Southern California Inland Empire, can modify to your use case
+./scripts/fetch_data.sh
+
+# 2. Start up the nominatum engine, valhalla too if you intend on doing routing test
+docker compose up -d --build valhalla nominatim
+```
+
+
 ## B. Requesting Data from the microservice
 Send a HTTP GET request to the microservice, with the address you want to geocode in string format as the query parameter "address".
 
